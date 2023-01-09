@@ -26,9 +26,11 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
 
   const to = join(process.cwd(), options.to);
 
-  await cleanToDirectory(to, options.silent);
-
   const from = join(process.cwd(), options.from, `**/*`);
+
+  if (!options.ignoreInitial) {
+    await cleanToDirectory(to, options.silent);
+  }
 
   if (options.watch) {
     const hashes$ = new BehaviorSubject<HashMap>({});
@@ -37,8 +39,8 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
       .pipe(
         debounceTime(10),
         startWith({}),
-        pairwise(),
-        distinctUntilChanged((a, b) => isEqual(a, b))
+        distinctUntilChanged((a, b) => isEqual(a, b)),
+        pairwise()
       )
       .subscribe(([oldHashes, newHashes]) => {
         const oldHashPaths = Object.values(oldHashes);
