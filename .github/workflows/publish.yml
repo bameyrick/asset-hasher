@@ -38,6 +38,6 @@ jobs:
         run: git status
 
       - name: Publish package on NPM 📦
-        run: npm version ${{github.ref_name}} --allow-same-version --allow-empty && npm publish --dry-run
+        run: npm version ${{github.ref_name}} --allow-same-version --allow-empty --no-commit-hooks && npm publish --dry-run
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
