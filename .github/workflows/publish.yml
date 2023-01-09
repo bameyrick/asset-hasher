@@ -28,14 +28,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Git status
-        run: git status
-
-      - name: Version
-        run: npm version ${{github.ref_name}} --allow-same-version
-
-      - name: Git status
-        run: git status
+      - name: Set details
+        run: git config --global user.email "bameyrick@gmail.com" && git config --global user.name "Ben Meyrick"
 
       - name: Publish package on NPM 📦
         run: npm version ${{github.ref_name}} --allow-same-version --allow-empty --no-commit-hooks && npm publish --dry-run
