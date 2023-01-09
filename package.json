@@ -21,7 +21,15 @@
     "type": "git",
     "url": "git+https://github.com/bameyrick/asset-hasher.git"
   },
-  "keywords": ["hasher", "asset", "asset hasher", "enum", "const", "variables", "cli"],
+  "keywords": [
+    "hasher",
+    "asset",
+    "asset hasher",
+    "enum",
+    "const",
+    "variables",
+    "cli"
+  ],
   "author": "Ben Meyrick <bameyrick@gmail.com>",
   "license": "MIT",
   "bugs": {
@@ -38,8 +46,13 @@
       "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser babel --write",
       "eslint --fix --max-warnings 0"
     ],
-    "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"],
-    "*.md": ["prettier --write", "remark"]
+    "*.json": [
+      "prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"
+    ],
+    "*.md": [
+      "prettier --write",
+      "remark"
+    ]
   },
   "dependencies": {
     "@qntm-code/utils": "^2.8.1",
