@@ -53,18 +53,19 @@ asset-hasher --from src/assets --output src/assets-hashed --tsEnum src/enums/ass
 
 ### Options
 
-| Option         | Alias   | Description                                                                                                                          | Type      | Required |
-| -------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------- |
-| `--from`       | `-f`    | Glob pattern of the assets to hashGlob pattern of the assets to hash                                                                 | `string`  | `true`   |
-| `--to`         | `-t`    | The path to the directory where the hashed assets will be written                                                                    | `string`  | `true`   |
-| `--removePath` | `-r`    | Partial path to remove from the hashed asset enum/const/variables paths                                                              | `string`  | `false`  |
-| `--watch`      | `-w`    | Whether to watch the assets directory for changes                                                                                    | `boolean` | `false`  |
-| `--tsEnum`     | `-ts`   | The path to create the TypeScript enum containing the paths of the hashed assets. If not specified, the enum will not be created     | `string`  | `false`  |
-| `--jsConst`    | `-js`   | The path to create the JavaScript const containing the paths of the hashed assets. If not specified, the const will not be created   | `string`  | `false`  |
-| `--sassVars`   | `-sass` | The path to create the sass variables containing the paths of the hashed assets. If not specified, the variables will not be created | `string`  | `false`  |
-| `--cssVars`    | `-css`  | The path to create the CSS variables containing the paths of the hashed assets. If not specified, the variables will not be created  | `string`  | `false`  |
-| `--silent`     | `-s`    | Whether to suppress all logging                                                                                                      | `boolean` | `false`  |
-| `--help`       | `-h`    | Show help                                                                                                                            | `boolean` | `false`  |
+| Option            | Alias   | Description                                                                                                                          | Type      | Required |
+| ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------- |
+| `--from`          | `-f`    | Glob pattern of the assets to hashGlob pattern of the assets to hash                                                                 | `string`  | `true`   |
+| `--to`            | `-t`    | The path to the directory where the hashed assets will be written                                                                    | `string`  | `true`   |
+| `--removePath`    | `-r`    | Partial path to remove from the hashed asset enum/const/variables paths                                                              | `string`  | `false`  |
+| `--watch`         | `-w`    | Whether to watch the assets directory for changes                                                                                    | `boolean` | `false`  |
+| `--ignoreInitial` | `-i`    | Ignores the files that already exists when starting with watch enabled                                                               | `boolean` | `false`  |
+| `--tsEnum`        | `-ts`   | The path to create the TypeScript enum containing the paths of the hashed assets. If not specified, the enum will not be created     | `string`  | `false`  |
+| `--jsConst`       | `-js`   | The path to create the JavaScript const containing the paths of the hashed assets. If not specified, the const will not be created   | `string`  | `false`  |
+| `--sassVars`      | `-sass` | The path to create the sass variables containing the paths of the hashed assets. If not specified, the variables will not be created | `string`  | `false`  |
+| `--cssVars`       | `-css`  | The path to create the CSS variables containing the paths of the hashed assets. If not specified, the variables will not be created  | `string`  | `false`  |
+| `--silent`        | `-s`    | Whether to suppress all logging                                                                                                      | `boolean` | `false`  |
+| `--help`          | `-h`    | Show help                                                                                                                            | `boolean` | `false`  |
 
 ## Library Usage
 

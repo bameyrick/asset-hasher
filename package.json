@@ -11,7 +11,7 @@
     "build": "npm run tidy-clean && tsc -p tsconfig.json",
     "test": "npm run tidy-clean && jest --coverage",
     "lint": "npm run tidy-clean && eslint",
-    "tidy-clean": "rimraf dist coverage dist",
+    "tidy-clean": "rimraf dist coverage tests/fixtures/results",
     "pre-commit": "lint-staged",
     "prepare-husky": "npx husky-init",
     "upgrade-interactive": "npm-check --update",
@@ -35,7 +35,7 @@
     "*.ts": [
       "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser typescript --write",
       "eslint --fix --max-warnings 0",
-      "npm run test"
+      "npm run test tests/**/*.spec.ts"
     ],
     "*.js": [
       "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser babel --write",

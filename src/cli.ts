@@ -30,6 +30,12 @@ const options: Record<AssetHasherOptionsKey, yargs.Options> = {
     type: 'boolean',
     default: false,
   },
+  [AssetHasherOptionsKey.ignoreInitial]: {
+    alias: 'i',
+    describe: 'Ignores the files that already exists when starting with watch enabled',
+    type: 'boolean',
+    requiresArg: false,
+  },
   [AssetHasherOptionsKey.tsEnumPath]: {
     alias: 'ts',
     describe:

@@ -57,7 +57,7 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
       });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    chokidar.watch(from).on(`all`, async (event, path) => {
+    chokidar.watch(from, { ignoreInitial: options.ignoreInitial }).on(`all`, async (event, path) => {
       if (!options.silent && ['addDir', 'add'].includes(event)) {
         console.log(chalk.cyan(`[ASSET HASHER] - Watching ${path.replace(`${join(process.cwd(), options.from)}/`, ``)}`));
       }
