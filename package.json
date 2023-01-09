@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/bameyrick/asset-hasher.git"
   },
-  "keywords": ["hasher", "asset", "asset hasher", "enum", "const", "variables"],
+  "keywords": ["hasher", "asset", "asset hasher", "enum", "const", "variables", "cli"],
   "author": "Ben Meyrick <bameyrick@gmail.com>",
   "license": "MIT",
   "bugs": {

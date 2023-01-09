@@ -1,8 +1,8 @@
 export enum AssetHasherOptionsKey {
   // Glob pattern of the assets to hash
-  fromPath = 'fromPath',
+  from = 'from',
   // The path to the directory where the hashed assets will be written
-  toPath = 'toPath',
+  to = 'to',
   // Partial path to remove from the hashed asset enum/const/variables paths
   removePath = 'removePath',
   // Whether to watch the assets directory for changes

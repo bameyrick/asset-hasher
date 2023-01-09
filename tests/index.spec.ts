@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import { existsSync } from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
+import { hashAssets } from '../src/hash-assets';
 import { runCommand } from './run-command';
 
 describe(`asset-hasher`, () => {
@@ -14,40 +15,94 @@ describe(`asset-hasher`, () => {
     await Promise.all([resultPath].map(directory => new Promise(resolve => rimraf(path.join(process.cwd(), directory), resolve))));
   });
 
-  it(`Should hash assets`, async () => {
-    await runCommand(`hash-assets --fromPath=tests/fixtures/assets --toPath=${resultPathAssetsHashed} --silent`);
+  describe(`CLI`, () => {
+    it(`Should hash assets`, async () => {
+      await runCommand(`hash-assets --from=tests/fixtures/assets --to=${resultPathAssetsHashed} --silent`);
 
-    expect(existsSync(resultPathAssetsHashed)).toBe(true);
-    expect(existsSync(`${resultPathAssetsHashed}/nested`)).toBe(true);
+      expect(existsSync(resultPathAssetsHashed)).toBe(true);
+      expect(existsSync(`${resultPathAssetsHashed}/nested`)).toBe(true);
+    });
+
+    it(`Should create path files`, async () => {
+      const tsEnumPath = `${resultPath}/assets.ts`;
+      const jsConstPath = `${resultPath}/assets.js`;
+      const sassVariablesPath = `${resultPath}/assets.scss`;
+      const cssVariablesPath = `${resultPath}/assets.css`;
+
+      await runCommand(
+        `hash-assets --from=tests/fixtures/assets --to=${resultPathAssetsHashed} --tsEnumPath=${tsEnumPath} --jsConstPath=${jsConstPath} --sassVariablesPath=${sassVariablesPath} --cssVariablesPath=${cssVariablesPath} --silent`
+      );
+
+      expect(existsSync(tsEnumPath)).toBe(true);
+      expect(existsSync(jsConstPath)).toBe(true);
+      expect(existsSync(sassVariablesPath)).toBe(true);
+      expect(existsSync(cssVariablesPath)).toBe(true);
+    });
+
+    it(`Should log if no --silent added`, async () => {
+      const originalLog = console.log;
+
+      const logSpy = jest.fn();
+
+      console.log = logSpy;
+
+      await runCommand(`hash-assets --from=tests/fixtures/assets --to=${resultPathAssetsHashed}`);
+
+      expect(logSpy).toHaveBeenCalled();
+
+      console.log = originalLog;
+    });
   });
 
-  it(`Should create path files`, async () => {
-    const tsEnumPath = `${resultPath}/assets.ts`;
-    const jsConstPath = `${resultPath}/assets.js`;
-    const sassVariablesPath = `${resultPath}/assets.scss`;
-    const cssVariablesPath = `${resultPath}/assets.css`;
+  describe(`API`, () => {
+    it(`Should hash assets`, async () => {
+      await hashAssets({
+        from: `tests/fixtures/assets`,
+        to: resultPathAssetsHashed,
+        silent: true,
+      });
 
-    await runCommand(
-      `hash-assets --fromPath=tests/fixtures/assets --toPath=${resultPathAssetsHashed} --tsEnumPath=${tsEnumPath} --jsConstPath=${jsConstPath} --sassVariablesPath=${sassVariablesPath} --cssVariablesPath=${cssVariablesPath} --silent`
-    );
+      expect(existsSync(resultPathAssetsHashed)).toBe(true);
+      expect(existsSync(`${resultPathAssetsHashed}/nested`)).toBe(true);
+    });
 
-    expect(existsSync(tsEnumPath)).toBe(true);
-    expect(existsSync(jsConstPath)).toBe(true);
-    expect(existsSync(sassVariablesPath)).toBe(true);
-    expect(existsSync(cssVariablesPath)).toBe(true);
-  });
+    it(`Should create path files`, async () => {
+      const tsEnumPath = `${resultPath}/assets.ts`;
+      const jsConstPath = `${resultPath}/assets.js`;
+      const sassVariablesPath = `${resultPath}/assets.scss`;
+      const cssVariablesPath = `${resultPath}/assets.css`;
 
-  it(`Should log if no --silent added`, async () => {
-    const originalLog = console.log;
+      await hashAssets({
+        from: `tests/fixtures/assets`,
+        to: resultPathAssetsHashed,
+        tsEnumPath,
+        jsConstPath,
+        sassVariablesPath,
+        cssVariablesPath,
+        silent: true,
+      });
 
-    const logSpy = jest.fn();
+      expect(existsSync(tsEnumPath)).toBe(true);
+      expect(existsSync(jsConstPath)).toBe(true);
+      expect(existsSync(sassVariablesPath)).toBe(true);
+      expect(existsSync(cssVariablesPath)).toBe(true);
+    });
 
-    console.log = logSpy;
+    it(`Should log if no --silent added`, async () => {
+      const originalLog = console.log;
 
-    await runCommand(`hash-assets --fromPath=tests/fixtures/assets --toPath=${resultPathAssetsHashed}`);
+      const logSpy = jest.fn();
 
-    expect(logSpy).toHaveBeenCalled();
+      console.log = logSpy;
 
-    console.log = originalLog;
+      await hashAssets({
+        from: `tests/fixtures/assets`,
+        to: resultPathAssetsHashed,
+      });
+
+      expect(logSpy).toHaveBeenCalled();
+
+      console.log = originalLog;
+    });
   });
 });

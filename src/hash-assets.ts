@@ -12,23 +12,23 @@ import { processAssets } from './process-assets';
 import { AssetHasherOptions, CopyPath, HashMap } from './types';
 
 export async function hashAssets(options: AssetHasherOptions): Promise<void> {
-  if (!options.fromPath) {
-    throw new Error('The fromPath option is required');
+  if (!options.from) {
+    throw new Error('The from option is required');
   }
 
-  if (!options.toPath) {
-    throw new Error('The toPath option is required');
+  if (!options.to) {
+    throw new Error('The to option is required');
   }
 
   if (!options.silent) {
     console.log(chalk.green('[ASSET HASHER] - HASHING ASSETS'));
   }
 
-  const toPath = join(process.cwd(), options.toPath);
+  const to = join(process.cwd(), options.to);
 
-  await cleanToDirectory(toPath, options.silent);
+  await cleanToDirectory(to, options.silent);
 
-  const fromPath = join(process.cwd(), options.fromPath, `**/*`);
+  const from = join(process.cwd(), options.from, `**/*`);
 
   if (options.watch) {
     const hashes$ = new BehaviorSubject<HashMap>({});
@@ -57,15 +57,15 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
       });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    chokidar.watch(fromPath).on(`all`, async (event, path) => {
+    chokidar.watch(from).on(`all`, async (event, path) => {
       if (!options.silent && ['addDir', 'add'].includes(event)) {
-        console.log(chalk.cyan(`[ASSET HASHER] - Watching ${path.replace(`${join(process.cwd(), options.fromPath)}/`, ``)}`));
+        console.log(chalk.cyan(`[ASSET HASHER] - Watching ${path.replace(`${join(process.cwd(), options.from)}/`, ``)}`));
       }
 
       const hashes = clone(await firstValueFrom(hashes$));
 
       if (['add', 'change'].includes(event)) {
-        hashes[path] = generateHashedPath(path, fromPath, toPath);
+        hashes[path] = generateHashedPath(path, from, to);
       }
 
       if (event === 'unlink') {
@@ -76,12 +76,12 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
     });
   } else {
     const paths = glob
-      .sync(fromPath)
+      .sync(from)
       .filter(path => !isEmpty(extname(path)))
-      .map(path => [path, generateHashedPath(path, fromPath, toPath)] as CopyPath);
+      .map(path => [path, generateHashedPath(path, from, to)] as CopyPath);
 
     if (!options.silent) {
-      const processingPaths = paths.map(([from]) => from.replace(`${join(process.cwd(), options.fromPath)}/`, ``));
+      const processingPaths = paths.map(([from]) => from.replace(`${join(process.cwd(), options.from)}/`, ``));
 
       console.log(chalk.blue(`[ASSET HASHER] - Processing ${processingPaths.length} files`));
       console.log(chalk.cyan(`  - ${processingPaths.join(`\n  - `)}`));

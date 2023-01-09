@@ -1,8 +1,8 @@
 import { AssetHasherOptionsKey } from './options-key';
 
 export interface AssetHasherOptions {
-  [AssetHasherOptionsKey.fromPath]: string;
-  [AssetHasherOptionsKey.toPath]: string;
+  [AssetHasherOptionsKey.from]: string;
+  [AssetHasherOptionsKey.to]: string;
   [AssetHasherOptionsKey.removePath]?: string;
   [AssetHasherOptionsKey.watch]?: boolean;
   [AssetHasherOptionsKey.tsEnumPath]?: string;

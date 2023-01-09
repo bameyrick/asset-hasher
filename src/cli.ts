@@ -6,13 +6,13 @@ import { hashAssets } from './hash-assets';
 import { AssetHasherOptions, AssetHasherOptionsKey } from './types';
 
 const options: Record<AssetHasherOptionsKey, yargs.Options> = {
-  [AssetHasherOptionsKey.fromPath]: {
+  [AssetHasherOptionsKey.from]: {
     alias: 'f',
     describe: 'Glob pattern of the assets to hash',
     type: 'string',
     requiresArg: true,
   },
-  [AssetHasherOptionsKey.toPath]: {
+  [AssetHasherOptionsKey.to]: {
     alias: 't',
     describe: 'The path to the directory where the hashed assets will be written',
     type: 'string',
