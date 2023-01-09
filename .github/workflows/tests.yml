@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run pre-build
-        run: yarn pre-build
-
       - name: Lint the code
         run: npm run lint
       - name: Run the tests
