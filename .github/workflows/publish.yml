@@ -31,6 +31,12 @@ jobs:
       - name: Git status
         run: git status
 
+      - name: Version
+        run: npm version ${{github.ref_name}} --allow-same-version
+
+      - name: Git status
+        run: git status
+
       - name: Publish package on NPM 📦
         run: npm version ${{github.ref_name}} --allow-same-version --allow-empty && npm publish --dry-run
         env:
