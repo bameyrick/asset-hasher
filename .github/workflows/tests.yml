@@ -7,25 +7,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository 🛒
         uses: actions/checkout@v3
 
-      - name: Set node version
+      - name: Set node version 🤖
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
         id: nvm
 
-      - name: Set up Node.js ${{ steps.nvm.outputs.NODE_VERSION }}
+      - name: Set up Node.js ${{ steps.nvm.outputs.NODE_VERSION }} 🤖
         uses: actions/setup-node@v3
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
 
-      - name: Install dependencies
+      - name: Install dependencies 🌀
         run: npm install
 
-      - name: Lint the code
+      - name: Lint the code 🔍
         run: npm run lint
-      - name: Run the tests
+
+      - name: Run the tests 🧪
         run: npm run test --coverage --coverageReporters=lcov,text
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage to Codecov 📈
         uses: codecov/codecov-action@v3
