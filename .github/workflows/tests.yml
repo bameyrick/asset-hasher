@@ -25,7 +25,7 @@ jobs:
       - name: Lint the code
         run: npm run lint
       - name: Run the tests
-        run: npm run jest --coverage --coverageReporters=lcov,text
+        run: jest --coverage --coverageReporters=lcov,text
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
