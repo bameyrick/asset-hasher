@@ -28,9 +28,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Set details
-        run: git config --global user.email "bameyrick@gmail.com" && git config --global user.name "Ben Meyrick"
-
       - name: Publish package on NPM 📦
         run: npm version ${{github.ref_name}} --allow-same-version --allow-empty && npm publish
         env:
