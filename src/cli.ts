@@ -18,10 +18,10 @@ const options: Record<AssetHasherOptionsKey, yargs.Options> = {
     type: 'string',
     requiresArg: true,
   },
-  [AssetHasherOptionsKey.removePath]: {
+  [AssetHasherOptionsKey.removePaths]: {
     alias: 'r',
-    describe: 'Partial path to remove from the hashed asset enum/const/variables paths',
-    type: 'string',
+    describe: 'Comma separated partial paths to remove from the hashed asset enum/const/variables ',
+    type: 'array',
     requiresArg: false,
   },
   [AssetHasherOptionsKey.watch]: {

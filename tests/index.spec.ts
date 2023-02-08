@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
 import { hashAssets } from '../src/hash-assets';
@@ -37,6 +37,23 @@ describe(`asset-hasher`, () => {
       expect(existsSync(jsConstPath)).toBe(true);
       expect(existsSync(sassVariablesPath)).toBe(true);
       expect(existsSync(cssVariablesPath)).toBe(true);
+    });
+
+    it(`Should create path files and remove parts from the generated file paths `, async () => {
+      const tsEnumPath = `${resultPath}/assets.ts`;
+      const removePaths = ['tests/fixtures/assets/', 'tests/fixtures/results/assets-hashed/'];
+
+      await runCommand(
+        `hash-assets --from=tests/fixtures/assets --to=${resultPathAssetsHashed} --tsEnumPath=${tsEnumPath} --removePaths=${removePaths.join(
+          ' '
+        )} --silent`
+      );
+
+      expect(existsSync(tsEnumPath)).toBe(true);
+
+      const tsEnumContent = readFileSync(tsEnumPath, 'utf8');
+
+      removePaths.forEach(removePath => expect(tsEnumContent).not.toContain(removePath));
     });
 
     it(`Should log if no --silent added`, async () => {
@@ -86,6 +103,25 @@ describe(`asset-hasher`, () => {
       expect(existsSync(jsConstPath)).toBe(true);
       expect(existsSync(sassVariablesPath)).toBe(true);
       expect(existsSync(cssVariablesPath)).toBe(true);
+    });
+
+    it(`Should create path files and remove parts from the generated file paths `, async () => {
+      const tsEnumPath = `${resultPath}/assets.ts`;
+      const removePaths = ['tests/fixtures/assets/', 'tests/fixtures/results/assets-hashed/'];
+
+      await hashAssets({
+        from: `tests/fixtures/assets`,
+        to: resultPathAssetsHashed,
+        tsEnumPath,
+        removePaths,
+        silent: true,
+      });
+
+      expect(existsSync(tsEnumPath)).toBe(true);
+
+      const tsEnumContent = readFileSync(tsEnumPath, 'utf8');
+
+      removePaths.forEach(removePath => expect(tsEnumContent).not.toContain(removePath));
     });
 
     it(`Should log if no --silent added`, async () => {
