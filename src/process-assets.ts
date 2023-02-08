@@ -8,7 +8,7 @@ const AUTO_GENERATED_MESSAGE = `/**\n * AUTO GENERATED FILE. DO NOT EDIT AS YOUR
 
 export function processAssets(
   copyPaths: CopyPath[],
-  { removePath, tsEnumPath, jsConstPath, sassVariablesPath, cssVariablesPath, silent }: AssetHasherOptions
+  { removePaths, tsEnumPath, jsConstPath, sassVariablesPath, cssVariablesPath, silent }: AssetHasherOptions
 ): void {
   let tsFileContents = `${AUTO_GENERATED_MESSAGE}export enum AssetPath {`;
   let jsFileContents = `${AUTO_GENERATED_MESSAGE}export const AssetPath = {`;
@@ -22,9 +22,9 @@ export function processAssets(
   copyPaths.forEach(([from, to]) => {
     copy(from, to);
 
-    const fromKey = sanitisePath(cwd, from, removePath);
+    const fromKey = sanitisePath(cwd, from, removePaths);
 
-    const toKey = sanitisePath(cwd, to, removePath);
+    const toKey = sanitisePath(cwd, to, removePaths);
 
     const jsValue = `\n  '${fromKey}' = '${toKey}',`;
 

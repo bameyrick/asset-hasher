@@ -1,7 +1,7 @@
 export enum AssetHasherOptionsKey {
   from = 'from',
   to = 'to',
-  removePath = 'removePath',
+  removePaths = 'removePaths',
   watch = 'watch',
   ignoreInitial = 'ignoreInitial',
   tsEnumPath = 'tsEnumPath',

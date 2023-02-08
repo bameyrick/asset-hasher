@@ -6,7 +6,7 @@ export interface AssetHasherOptions {
   // The path to the directory where the hashed assets will be written
   [AssetHasherOptionsKey.to]: string;
   // Partial path to remove from the hashed asset enum/const/variables paths
-  [AssetHasherOptionsKey.removePath]?: string;
+  [AssetHasherOptionsKey.removePaths]?: string[];
   // Whether to watch the assets directory for changes
   [AssetHasherOptionsKey.watch]?: boolean;
   // Ignores the files that already exists when starting with watch enabled

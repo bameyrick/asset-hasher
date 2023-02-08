@@ -57,7 +57,7 @@ asset-hasher --from src/assets --output src/assets-hashed --tsEnum src/enums/ass
 | --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------- | -------- |
 | `--from`              | `-f`    | Glob pattern of the assets to hashGlob pattern of the assets to hash                                                                 | `string`  | `true`   |
 | `--to`                | `-t`    | The path to the directory where the hashed assets will be written                                                                    | `string`  | `true`   |
-| `--removePath`        | `-r`    | Partial path to remove from the hashed asset enum/const/variables paths                                                              | `string`  | `false`  |
+| `--removePaths`       | `-r`    | Comma or space separated partial paths to remove from the hashed asset enum/const/variables paths                                    | `string`  | `false`  |
 | `--watch`             | `-w`    | Whether to watch the assets directory for changes                                                                                    | `boolean` | `false`  |
 | `--ignoreInitial`     | `-i`    | Ignores the files that already exists when starting with watch enabled                                                               | `boolean` | `false`  |
 | `--tsEnumPath`        | `-ts`   | The path to create the TypeScript enum containing the paths of the hashed assets. If not specified, the enum will not be created     | `string`  | `false`  |
@@ -83,7 +83,7 @@ await hashAssets({
   jsConst: 'src/constants/assets.js',
   sassVars: 'src/styles/assets.scss',
   cssVars: 'src/styles/assets.css',
-  removePath: 'src/assets',
+  removePaths: ['src/assets', 'src/assets-hashed'],
   watch: false,
   silent: false,
 });
