@@ -75,7 +75,8 @@ const options: Record<AssetHasherOptionsKey, yargs.Options> = {
 const cli = yargs(hideBin(process.argv))
   .scriptName('asset-hasher')
   .usage('$0 [options] <command ...>')
-  .help('h')
+  .help()
+  .alias('h', 'help')
   .alias('v', 'V')
   .alias('v', 'version')
   .options(options);
