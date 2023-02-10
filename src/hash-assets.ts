@@ -32,8 +32,13 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
     await cleanToDirectory(to, options.silent);
   }
 
+  const paths = glob
+    .sync(from)
+    .filter(path => !isEmpty(extname(path)))
+    .map(path => [path, generateHashedPath(path, from, to)] as CopyPath);
+
   if (options.watch) {
-    const hashes$ = new BehaviorSubject<HashMap>({});
+    const hashes$ = new BehaviorSubject<HashMap>(paths.reduce((result, [from, to]) => ({ ...result, [from]: to }), {}));
 
     hashes$
       .pipe(
@@ -42,20 +47,15 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
         distinctUntilChanged((a, b) => isEqual(a, b)),
         pairwise()
       )
-      .subscribe(([oldHashes, newHashes]) => {
-        const oldHashPaths = Object.values(oldHashes);
-        const newHashPaths = Object.values(newHashes);
+      .subscribe(([previousHashes, nextHashes]) => {
+        const previousHashPaths = Object.values(previousHashes);
+        const nextHashPaths = Object.values(nextHashes);
 
         // Remove old hashes
-        Object.values(oldHashes)
-          .filter(hash => !newHashPaths.includes(hash))
-          .forEach(path => unlinkSync(path));
+        previousHashPaths.filter(hash => !nextHashPaths.includes(hash)).forEach(path => unlinkSync(path));
 
         // Copy new hashes
-        processAssets(
-          Object.entries(newHashes).filter(([_, hash]) => !oldHashPaths.includes(hash)),
-          options
-        );
+        processAssets(Object.entries(nextHashes), options);
       });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -74,14 +74,11 @@ export async function hashAssets(options: AssetHasherOptions): Promise<void> {
         delete hashes[path];
       }
 
+      console.log('HASHES', hashes);
+
       hashes$.next(hashes);
     });
   } else {
-    const paths = glob
-      .sync(from)
-      .filter(path => !isEmpty(extname(path)))
-      .map(path => [path, generateHashedPath(path, from, to)] as CopyPath);
-
     if (!options.silent) {
       const processingPaths = paths.map(([from]) => from.replace(`${join(process.cwd(), options.from)}/`, ``));
 
